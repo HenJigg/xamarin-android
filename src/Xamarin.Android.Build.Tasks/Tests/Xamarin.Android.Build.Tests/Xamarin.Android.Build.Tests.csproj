@@ -2,10 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <_MSBuildExtension Condition=" '$(OS)' == 'Windows_NT' ">exe</_MSBuildExtension>
-    <_MSBuildExtension Condition=" '$(OS)' != 'Windows_NT' ">dll</_MSBuildExtension>
-    <_MSBuildToolsPath Condition=" !$(MSBuildToolsPath.Contains('xbuild')) ">$(MSBuildToolsPath)</_MSBuildToolsPath>
-    <_MSBuildToolsPath Condition=" $(MSBuildToolsPath.Contains('xbuild')) ">$([System.IO.Path]::GetFullPath ('$(MSBuildToolsPath)\..\..\..\msbuild\15.0\bin'))</_MSBuildToolsPath>
     <LibZipSharpBundleAllNativeLibraries>true</LibZipSharpBundleAllNativeLibraries>
     <OutputPath>..\..\..\..\bin\Test$(Configuration)</OutputPath>
   </PropertyGroup>

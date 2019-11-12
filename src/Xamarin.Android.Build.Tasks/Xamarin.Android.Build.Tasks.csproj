@@ -1,16 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Xamarin.Android.Tasks</RootNamespace>
-  </PropertyGroup>
-
   <Import Project="..\..\Configuration.props" />
   <Import Project="..\..\build-tools\scripts\LocalizationLanguages.projitems" />
   <Import Project="..\..\build-tools\scripts\MSBuildReferences.projitems" />
   <Import Project="..\Xamarin.Android.NamingCustomAttributes\Xamarin.Android.NamingCustomAttributes.projitems" Label="Shared" Condition="Exists('..\Xamarin.Android.NamingCustomAttributes\Xamarin.Android.NamingCustomAttributes.projitems')" />
 
   <PropertyGroup>
+    <TargetFrameworks>$(CrossTargetingFrameworks)</TargetFrameworks>
+    <RootNamespace>Xamarin.Android.Tasks</RootNamespace>
     <LibZipSharpBundleAllNativeLibraries>true</LibZipSharpBundleAllNativeLibraries>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <OutputPath>$(XAInstallPrefix)xbuild\Xamarin\Android\</OutputPath>

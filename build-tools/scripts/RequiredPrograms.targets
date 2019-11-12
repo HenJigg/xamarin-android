@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)..\..\bin\Build$(Configuration)\xa-prep-tasks.dll"  TaskName="Xamarin.Android.BuildTools.PrepTasks.DownloadUri" />
-  <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)..\..\bin\Build$(Configuration)\xa-prep-tasks.dll"  TaskName="Xamarin.Android.BuildTools.PrepTasks.PrepareInstall" />
-  <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)..\..\bin\Build$(Configuration)\xa-prep-tasks.dll"  TaskName="Xamarin.Android.BuildTools.PrepTasks.Which" />
-  <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)..\..\bin\Build$(Configuration)\xa-prep-tasks.dll"  TaskName="Xamarin.Android.BuildTools.PrepTasks.GitCommitTime" />
+  <UsingTask AssemblyFile="$(SupportingBuildTasksDirectory)xa-prep-tasks.dll"  TaskName="Xamarin.Android.BuildTools.PrepTasks.DownloadUri" />
+  <UsingTask AssemblyFile="$(SupportingBuildTasksDirectory)xa-prep-tasks.dll"  TaskName="Xamarin.Android.BuildTools.PrepTasks.PrepareInstall" />
+  <UsingTask AssemblyFile="$(SupportingBuildTasksDirectory)xa-prep-tasks.dll"  TaskName="Xamarin.Android.BuildTools.PrepTasks.Which" />
+  <UsingTask AssemblyFile="$(SupportingBuildTasksDirectory)xa-prep-tasks.dll"  TaskName="Xamarin.Android.BuildTools.PrepTasks.GitCommitTime" />
   <Target Name="EnsureRequiredPackages"
       AfterTargets="CheckForRequiredPrograms"
       Condition=" '@(RequiredPackage)' != '' "
