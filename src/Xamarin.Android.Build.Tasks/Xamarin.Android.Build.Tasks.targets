@@ -9,13 +9,14 @@
   <Import Project="..\..\build-tools\scripts\XAVersionInfo.targets" />
   <PropertyGroup>
     <_SharedRuntimeBuildPath Condition=" '$(_SharedRuntimeBuildPath)' == '' ">$(XAInstallPrefix)xbuild-frameworks\MonoAndroid\</_SharedRuntimeBuildPath>
-    <_GeneratedProfileClass>Profile.g.cs</_GeneratedProfileClass>
+    <_GeneratedProfileClass>$(MSBuildThisFileDirectory)$(IntermediateOutputPath)Profile.g.cs</_GeneratedProfileClass>
     <BuildDependsOn>
       _CopyNDKTools;
       _GenerateXACommonProps;
       $(BuildDependsOn);
       _CopyExtractedMultiDexJar;
       _BuildMonoScripts;
+      _CopyExtraPackageContent;
     </BuildDependsOn>
     <_AndroidSdkLocation Condition="'$(_AndroidSdkLocation)'==''">$(AndroidSdkDirectory)</_AndroidSdkLocation>
     <_MultiDexAarInAndroidSdk>extras\android\m2repository\com\android\support\multidex\1.0.1\multidex-1.0.1.aar</_MultiDexAarInAndroidSdk>
@@ -212,7 +213,7 @@
   </Target>
   <Target Name="_GenerateXACommonProps"
       DependsOnTargets="GetXAVersionInfo"
-      BeforeTargets="CoreCompile"
+      BeforeTargets="DeployOutputFiles"
       Inputs="Xamarin.Android.Common.props.in;Xamarin.Android.BuildInfo.txt.in;..\..\build-tools\scripts\Ndk.targets"
       Outputs="Xamarin.Android.Common.props;Xamarin.Android.BuildInfo.txt">
     <ReplaceFileContents
@@ -229,17 +230,17 @@
   <Target Name="_GenerateProfileClass"
       BeforeTargets="CoreCompile"
       Inputs="@(_SharedRuntimeAssemblies)"
-      Outputs="$(IntermediateOutputPath)(_GeneratedProfileClass)">
+      Outputs="$(_GeneratedProfileClass)">
     <ItemGroup>
       <_SharedRuntimeAssemblies Remove="$(_SharedRuntimeBuildPath)v1.0\FSharp.Core.dll" />
     </ItemGroup>
-    <GenerateProfile Files="@(_SharedRuntimeAssemblies)" OutputFile="$(IntermediateOutputPath)$(_GeneratedProfileClass)" />
+    <GenerateProfile Files="@(_SharedRuntimeAssemblies)" OutputFile="$(_GeneratedProfileClass)" />
     <WriteLinesToFile
         File="$(IntermediateOutputPath)$(CleanFile)"
-        Lines="$(IntermediateOutputPath)$(_GeneratedProfileClass)"
+        Lines="$(_GeneratedProfileClass)"
         Overwrite="false"/>
     <ItemGroup>
-      <FileWrites Include="$(IntermediateOutputPath)$(_GeneratedProfileClass)" />
+      <FileWrites Include="$(_GeneratedProfileClass)" />
     </ItemGroup>
   </Target>
   
@@ -332,6 +333,16 @@
     <ItemGroup>
       <FileWrites Include="$(IntermediateOutputPath)ILRepacker.stamp" />
     </ItemGroup>
+  </Target>
+
+  <!-- Copy extra package ref content. '$(Pkg*)' props are set during NuGet restore when GeneratePathProperty="true" -->
+  <Target Name="_CopyExtraPackageContent"
+      Inputs="$(PkgMono_Posix_NETStandard)\runtimes\osx\lib\netstandard2.0\Mono.Posix.NETStandard.dll;$(PkgXamarin_Build_AsyncTask)\lib\netstandard2.0\Xamarin.Build.AsyncTask.pdb"
+      Outputs="$(OutputPath)\Mono.Posix.NETStandard.dll;$(OutputPath)\Xamarin.Build.AsyncTask.pdb" >
+    <Copy
+      SourceFiles="$(PkgMono_Posix_NETStandard)\runtimes\osx\lib\netstandard2.0\Mono.Posix.NETStandard.dll;$(PkgXamarin_Build_AsyncTask)\lib\netstandard2.0\Xamarin.Build.AsyncTask.pdb"
+      DestinationFolder="$(OutputPath)"
+    />
   </Target>
 
 </Project>

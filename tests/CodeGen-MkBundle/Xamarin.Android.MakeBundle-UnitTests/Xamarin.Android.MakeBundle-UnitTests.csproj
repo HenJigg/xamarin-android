@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>Xamarin.Android.MakeBundle.UnitTests</RootNamespace>
     <AssemblyName>Xamarin.Android.MakeBundle-UnitTests</AssemblyName>
     <OutputPath>..\..\..\bin\Test$(Configuration)</OutputPath>
@@ -9,9 +9,6 @@
 
   <Import Project="..\..\..\Configuration.props" />
   <Import Project="..\..\..\build-tools\scripts\MSBuildReferences.projitems" />
-  <Import Project="Xamarin.Android.MakeBundle-UnitTests.targets" />
-
-  <UsingTask AssemblyFile="$(SupportingBuildTasksDirectory)xa-prep-tasks.dll" TaskName="Xamarin.Android.BuildTools.PrepTasks.ReplaceFileContents" />
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.11.0" />

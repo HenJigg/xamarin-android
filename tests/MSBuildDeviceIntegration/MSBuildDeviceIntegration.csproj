@@ -1,11 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>Xamarin.Android.Build.Tests</RootNamespace>
     <AssemblyName>MSBuildDeviceIntegration</AssemblyName>
     <LibZipSharpBundleAllNativeLibraries>true</LibZipSharpBundleAllNativeLibraries>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>..\..\bin\Test$(Configuration)\MSBuildDeviceIntegration</OutputPath>
   </PropertyGroup>
 

@@ -1,16 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project>
 
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <Import Project="..\..\Configuration.props" />
   <Import Project="..\..\build-tools\scripts\LocalizationLanguages.projitems" />
   <Import Project="..\..\build-tools\scripts\MSBuildReferences.projitems" />
   <Import Project="..\Xamarin.Android.NamingCustomAttributes\Xamarin.Android.NamingCustomAttributes.projitems" Label="Shared" Condition="Exists('..\Xamarin.Android.NamingCustomAttributes\Xamarin.Android.NamingCustomAttributes.projitems')" />
 
   <PropertyGroup>
-    <TargetFrameworks>$(CrossTargetingFrameworks)</TargetFrameworks>
+    <TargetFramework>$(TargetFrameworkNETStandard)</TargetFramework>
     <RootNamespace>Xamarin.Android.Tasks</RootNamespace>
     <LibZipSharpBundleAllNativeLibraries>true</LibZipSharpBundleAllNativeLibraries>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <OutputPath>$(XAInstallPrefix)xbuild\Xamarin\Android\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DefineConstants>$(DefineConstants);TRACE;HAVE_CECIL;MSBUILD;ANDROID_24</DefineConstants>
     <AndroidGeneratedClassDirectory Condition=" '$(AndroidGeneratedClassDirectory)' == '' ">..\..\src\Mono.Android\obj\$(Configuration)\android-$(AndroidLatestStableApiLevel)\mcw</AndroidGeneratedClassDirectory>
   </PropertyGroup>
@@ -60,11 +62,6 @@
     <Compile Remove="Tests\**" />
     <Compile Include="$(IntermediateOutputPath)Profile.g.cs" />
     <Compile Include="..\..\bin\Build$(Configuration)\XABuildConfig.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="$(LinkerSourceFullPath)\tuner\Mono.Tuner\AdjustVisibility.cs">
       <Link>Linker\Mono.Tuner\AdjustVisibility.cs</Link>
     </Compile>
@@ -384,11 +381,6 @@
     <EmbeddedResource Include="Resources\ApplicationRegistration.java">
       <LogicalName>ApplicationRegistration.java</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <None Include="@(_LocalizationLanguages->'Properties\xlf\Resources.%(Identity).xlf')" />
   </ItemGroup>
 
@@ -410,9 +402,6 @@
       Xamarin.Android.Build.Tasks.targets uses several tasks located in
       Xamarin.Android.Tools.BootstrapTasks, such as <GenerateProfile/>
       -->
-    <ProjectReference Include="..\..\build-tools\Xamarin.Android.Tools.BootstrapTasks\Xamarin.Android.Tools.BootstrapTasks.csproj">
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-    </ProjectReference>
     <!--
       *Logically* needs to be built first because executing the <Proguard/>
       task will require the outputs of `proguard.csproj`.
@@ -434,6 +423,8 @@
     <ProjectReference Include="..\..\external\Java.Interop\src\Java.Interop\Java.Interop.csproj" />
   </ItemGroup>
 
+  <!-- Import Microsoft.NET.Sdk targets before our targets so we can override behavior -->
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <Import Project="Xamarin.Android.Build.Tasks.targets" />
 
 </Project>
